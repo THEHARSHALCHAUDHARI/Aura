@@ -1,135 +1,63 @@
-# Turborepo starter
+# Aura: The Contextual AI Assistant
 
-This Turborepo starter is maintained by the Turborepo core team.
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
-## Using this example
+**Aura** is a next-generation, open-source assistive technology project. It uses a modern, scalable stack to provide a real-time contextual AI assistant for individuals who are blind or have low vision.
 
-Run the following command:
+This system is not just a screen reader; it's a real-world copilot that can see, hear, remember, and connect the user with a sighted assistant when needed.
 
-```sh
-npx create-turbo@latest
-```
+---
 
-## What's inside?
+### 🚀 Key Features
 
-This Turborepo includes the following packages/apps:
+* **Conversational AI:** Human-like, real-time voice conversations powered by **Vapi**.
+* **Real-Time Context:** Uses live video, GPS, and sensor data to understand the user's environment.
+* **Hybrid Computer Vision:** Leverages **OpenCV** for fast, efficient, on-device (or server-side) pre-processing, object detection, and analysis before sending data to the cloud AI.
+* **5-Minute Memory:** A robust video pipeline archives the user's stream to **S3**, allowing them to ask questions about the recent past ("What did I just put down?").
+* **Remote Sighted Assistance:** A secure web portal for family or friends to log in, see the user's live feed, and provide direct audio assistance.
+* **Scalable by Design:** Built on a robust, serverless stack designed to scale from one user to thousands.
 
-### Apps and Packages
+---
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+### 🛠️ Tech Stack & Architecture
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+This project is a high-performance **[Turborepo](https://turbo.build/repo)** monorepo.
 
-### Utilities
+Using a monorepo allows us to manage all our code in a single repository while sharing code, types, and configurations across applications.
 
-This Turborepo has some additional tools already setup for you:
+* **Monorepo:** **Turborepo**
+* **Voice AI:** **Vapi** (for real-time, human-like voice)
+* **Core AI:** **OpenAI (GPT-4o)** for multimodal vision and reasoning.
+* **Computer Vision:** **OpenCV** (for real-time video processing and analysis)
+* **Authentication:** **Clerk** (for both mobile and web)
+* **Database:** **Supabase** (Postgres DB, Auth integration, Edge Functions)
+* **Web Portal (`apps/web`):** **Next.js** & Tailwind CSS
+* **Mobile App (`apps/mobile`):** **React Native (Expo)**
+* **Video Ingest Service (`apps/ingest`):** A **Node.js (Fastify/Express)** service to receive the ESP32-CAM stream, process frames with OpenCV, and upload to S3.
+* **Real-time Data:** **Redis** (for GPS/sensor Pub/Sub)
+* **Video Storage:** **Amazon S3** (for the 5-minute rolling video buffer)
+* **Hardware:** **ESP32-CAM** & **ESP8266/LiDAR**
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
+---
 
-### Build
+### 📦 Project Structure
 
-To build all apps and packages, run the following command:
-
-```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build
-yarn dlx turbo build
-pnpm exec turbo build
-```
-
-You can build a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
+The monorepo contains `apps` (our user-facing applications and services) and `packages` (shared code).
 
 ```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build --filter=docs
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build --filter=docs
-yarn exec turbo build --filter=docs
-pnpm exec turbo build --filter=docs
+/
+├── apps/
+│   ├── mobile/     # React Native (Expo) app for the user
+│   ├── web/        # Next.js portal for sighted assistants
+│   ├── docs/       # Next.js docs site (guides, API, etc.)
+│   └── ingest/     # Node.js service for video/OpenCV processing
+│
+├── packages/
+│   ├── db/         # Supabase client, schema, and RLS policies
+│   ├── ui/         # Shared React components (buttons, etc.)
+│   └── config/     # Shared ESLint, TypeScript configs
+│
+└── package.json    # Root package.json
+└── turbo.json      # Turborepo pipeline configuration
 ```
-
-### Develop
-
-To develop all apps and packages, run the following command:
-
-```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev
-yarn exec turbo dev
-pnpm exec turbo dev
-```
-
-You can develop a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
-
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev --filter=web
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev --filter=web
-yarn exec turbo dev --filter=web
-pnpm exec turbo dev --filter=web
-```
-
-### Remote Caching
-
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
-
-Turborepo can use a technique known as [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
-
-```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo login
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo login
-yarn exec turbo login
-pnpm exec turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo link
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo link
-yarn exec turbo link
-pnpm exec turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turborepo.com/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.com/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.com/docs/reference/configuration)
-- [CLI Usage](https://turborepo.com/docs/reference/command-line-reference)
