@@ -1,6 +1,6 @@
 # --- Core server ---
 flask==3.1.2
-flask-cors==5.0.0
+flask-cors==6.0.0
 python-dotenv==1.0.1
 
 # --- Vision / AI ---
