@@ -1,0 +1,23 @@
+{
+  "timestamp": "2026-02-04T18:20:41.315208",
+  "location": {
+    "primary": {
+      "lat": 19.0728,
+      "lng": 72.8826,
+      "accuracy_m": 5000,
+      "source": "network"
+    },
+    "secondary": null
+  },
+  "scene": "unknown",
+  "people": [
+    {
+      "name": "Harshal",
+      "distance_m": 2.0,
+      "activity": "unknown"
+    }
+  ],
+  "objects": [],
+  "hazards": [],
+  "image": "annotated_frame.jpg"
+}
