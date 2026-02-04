@@ -48,16 +48,33 @@ The monorepo contains `apps` (our user-facing applications and services) and `pa
 ```
 /
 ├── apps/
-│   ├── mobile/     # React Native (Expo) app for the user
-│   ├── web/        # Next.js portal for sighted assistants
-│   ├── docs/       # Next.js docs site (guides, API, etc.)
-│   └── ingest/     # Node.js service for video/OpenCV processing
+│   └── ingest/                # Vision ingest & perception pipeline
+│       ├── package.json
+│       ├── python/             # Python-based vision workers
+│       │   ├── webcam_perception.py
+│       │   ├── vision_worker.py
+│       │   ├── scene.json
+│       │   └── face_db/
+│       └── src/                # TypeScript ingest + fusion layer
+│           ├── api/
+│           │   ├── ingest.ts
+│           │   └── context.ts
+│           ├── camera/
+│           │   └── esp32.ts
+│           ├── context/
+│           │   └── scene.ts
+│           ├── fusion/
+│           │   └── spatial.ts
+│           ├── sensors/
+│           │   └── lidar.ts
+│           ├── vision/
+│           │   ├── yolo.ts
+│           │   ├── faces.ts
+│           │   └── annotate.ts
+│           └── index.ts
 │
-├── packages/
-│   ├── db/         # Supabase client, schema, and RLS policies
-│   ├── ui/         # Shared React components (buttons, etc.)
-│   └── config/     # Shared ESLint, TypeScript configs
-│
-└── package.json    # Root package.json
-└── turbo.json      # Turborepo pipeline configuration
+├── pnpm-lock.yaml
+├── turbo.json
+└── README.md
+
 ```
